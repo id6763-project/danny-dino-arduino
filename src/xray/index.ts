@@ -45,7 +45,7 @@ const dannyTheDinoSetup: InstallationSetup = {
       id: 2,
       name: 'Light Up LED Strip',
       operation: 'invoke:api',
-      value: '/danny/ledStrip/turnOn',
+      value: '/led-strip/turn-on',
     },
     {
       id: 3,
@@ -76,7 +76,7 @@ const dannyTheDinoSetup: InstallationSetup = {
       id: 7,
       name: 'Activating Random Bone',
       operation: 'invoke:api',
-      value: '/danny/activateRandomBone',
+      value: '/bones/activate-next',
     },
     {
       id: 8,
@@ -251,8 +251,13 @@ export class DannyTheDino implements Installation<DannyTheDinoState> {
           ...this.bones
         );
 
-        this.ledStrip.turnOff();
-        this.bones.forEach((bone) => bone.makeInactive());
+        if (this.ledStrip) {
+          this.ledStrip.turnOff();
+        }
+
+        if (this.bones) {
+          this.bones.forEach((bone) => bone.makeInactive());
+        }
       })
       .catch((err) => logManager.error(err));
   }
@@ -289,35 +294,21 @@ export class DannyTheDino implements Installation<DannyTheDinoState> {
 
   async start(updateStatus = true) {
     this.state.status = 'started';
-    // this.ledStrip.turnOn();
-    // this.ledStrip.setColor(255, 255, 255);
-    // if (updateStatus) this.state.status = 'starting';
-    // if (updateStatus) this.state.status = 'started';
-    // this.player.play(`${this.audioPath}/1.mp3`, (err) => {
-    //   this.player.play(`${this.audioPath}/2.mp3`, (err) => {
-    //     // Turn on LED strip
-    //     this.ledStrip.setColor(color(100, 100, 100));
-    //     this.player.play(`${this.audioPath}/3.mp3`, (err) => {
-    //       this.player.play(`${this.audioPath}/4.mp3`, (err) => {
-    //         this.heartButton.on('press', () => {
-    //           this.activateNextBone();
-    //           this.player.play(`${this.audioPath}/5.mp3`, (err) => {
-    //             this.player.play(`${this.audioPath}/6.mp3`, (err) => {
-    //               this.makeCurrentBoneActive();
-    //             });
-    //           });
-    //         });
-    //       });
-    //     });
-    //   });
-    // });
   }
 
   async stop(updateStatus = true) {
     if (updateStatus) this.state.status = 'stopping';
 
-    this.ledStrip.turnOff();
-    this.bones.forEach((bone) => bone.makeInactive());
+    if (this.ledStrip) {
+      this.ledStrip.turnOff();
+    }
+    if (this.bones) {
+      this.bones.forEach((bone) => bone.makeInactive());
+    }
+
+    if (this.heartButton) {
+      this.heartButton.state.state = 'n/a';
+    }
 
     if (updateStatus) this.state.status = 'stopped';
   }
@@ -331,25 +322,3 @@ export class DannyTheDino implements Installation<DannyTheDinoState> {
 }
 
 export const danny = new DannyTheDino();
-
-// danny.connect().then(() => {
-// console.log('Connected');
-// danny.ledStrip.setColor(color(0, 0, 0));
-// danny.ledStrip.fadeTo(color(25, 25, 25), 3000).then(() => {
-//   console.log('Done Fade 1, starting Fade 2');
-
-//   danny.ledStrip.fadeTo(color(15, 15, 15), 3000).then(() => {
-//     console.log('Done Fade 2');
-//   });
-// });
-
-// danny.activateNextBone();
-
-// setTimeout(() => {
-//   danny.activateNextBone();
-
-//   setTimeout(() => danny.activateNextBone(), 2000);
-// }, 2000);
-// danny.bones.forEach((bone) => bone.activate());
-// danny.bones[2].activate();
-// });

@@ -3,6 +3,7 @@ import { ArduinoBoard } from './board';
 export interface ComponentState<State> {
   id: string;
   name: string;
+  type: string;
   state: State;
   operations?: {
     name: string;

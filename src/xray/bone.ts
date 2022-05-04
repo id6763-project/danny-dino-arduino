@@ -38,6 +38,7 @@ export class Bone implements EventBasedComponent<BoneState> {
   constructor(private options: BoneOptions) {
     this.state = {
       id: options.id,
+      type: 'bone',
       name: options.name,
       state: {
         isActive: false,
@@ -59,6 +60,10 @@ export class Bone implements EventBasedComponent<BoneState> {
         {
           name: 'Green',
           invoke: `/bones/${options.id}/set-to-green`,
+        },
+        {
+          name: 'Complete',
+          invoke: `/bones/${options.id}/complete`,
         },
       ],
     };
@@ -93,6 +98,18 @@ export class Bone implements EventBasedComponent<BoneState> {
     this.reedSwitch.bind(board);
   }
 
+  fireEvent() {
+    this.callbacks['complete'] = this.callbacks['complete'] || [];
+    this.callbacks['complete'].forEach((cb) => cb(this.getState()));
+  }
+
+  complete() {
+    this.state.state.state = 'complete';
+    // this.state.state.isActive = false;
+    this.turnGreen();
+    this.fireEvent();
+  }
+
   activate() {
     this.state.state.isActive = true;
     this.state.state.state = 'incomplete';
@@ -108,8 +125,7 @@ export class Bone implements EventBasedComponent<BoneState> {
           this.state.state.state === 'incomplete'
         ) {
           this.turnGreen();
-          this.callbacks['complete'] = this.callbacks['complete'] || [];
-          this.callbacks['complete'].forEach((cb) => cb(this.getState()));
+          this.fireEvent();
         }
       });
     }
@@ -119,6 +135,7 @@ export class Bone implements EventBasedComponent<BoneState> {
     logManager.info(`Turning ${this.state.name} inactive.`);
     this.initComponent();
     this.state.state.isActive = false;
+    this.state.state.state = 'incomplete';
     this.rLed.turnOff();
     this.gLed.turnOff();
   }

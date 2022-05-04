@@ -20,6 +20,7 @@ export class ReedSwitch implements EventBasedComponent<ReedSwitchState> {
     this.state = {
       id: options.id,
       name: options.name,
+      type: 'reed-switch',
       state: 'open',
     };
   }

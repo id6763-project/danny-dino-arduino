@@ -20,15 +20,16 @@ export class Button implements EventBasedComponent<ButtonState> {
     this.state = {
       id: options.id,
       name: options.name,
-      state: 'n/a',
+      type: 'button',
+      state: 'hold',
       operations: [
         {
           name: 'Press',
-          invoke: `/danny/button/${options.id}/press`,
+          invoke: `/buttons/${options.id}/press`,
         },
         {
           name: 'Reset',
-          invoke: `/danny/button/${options.id}/reset`,
+          invoke: `/buttons/${options.id}/reset`,
         },
       ],
     };

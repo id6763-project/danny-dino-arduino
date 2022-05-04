@@ -64,6 +64,7 @@ export class AnalogRGBLedStrip
     this.state = {
       id: options.id,
       name: options.name,
+      type: 'analog-led-strip',
       state: {
         currentColor: color(255, 255, 255).dim(),
         colorHistory: [],

@@ -19,6 +19,7 @@ export class Led implements BaseComponent<LedState> {
     this.state = {
       id: options.id,
       name: options.name,
+      type: 'led',
       state: 'off',
     };
   }
