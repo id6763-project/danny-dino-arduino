@@ -46,19 +46,19 @@ export class Bone implements EventBasedComponent<BoneState> {
       operations: [
         {
           name: 'Activate',
-          invoke: `/danny/bone/${options.id}/activate`,
+          invoke: `/bones/${options.id}/activate`,
         },
         {
           name: 'Deactivate',
-          invoke: `/danny/bone/${options.id}/deactivate`,
+          invoke: `/bones/${options.id}/deactivate`,
         },
         {
           name: 'Red',
-          invoke: `/danny/bone/${options.id}/red`,
+          invoke: `/bones/${options.id}/set-to-red`,
         },
         {
           name: 'Green',
-          invoke: `/danny/bone/${options.id}/green`,
+          invoke: `/bones/${options.id}/set-to-green`,
         },
       ],
     };

@@ -72,12 +72,12 @@ export class AnalogRGBLedStrip
       },
       operations: [
         {
-          name: 'Turn On LED Strip',
-          invoke: '/danny/ledStrip/turnOn',
+          name: 'Turn On',
+          invoke: '/led-strip/turn-on',
         },
         {
-          name: 'Turn Off LED Strip',
-          invoke: '/danny/ledStrip/turnOff',
+          name: 'Turn Off',
+          invoke: '/led-strip/turn-off',
         },
       ],
     };
